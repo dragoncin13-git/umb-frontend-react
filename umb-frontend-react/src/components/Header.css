@@ -1,0 +1,21 @@
+.header {
+  background: #007bff;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header button {
+  background: white;
+  color: #007bff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.header button:hover {
+  background: #eee;
+}
