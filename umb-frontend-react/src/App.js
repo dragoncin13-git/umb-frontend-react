@@ -1,26 +1,30 @@
 import { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
 import {
   obtenerTareas,
   crearTarea,
   actualizarTarea,
   eliminarTarea
 } from "./api";
-import ListaTareas from "./components/ListaTareas";
-import FormularioTarea from "./components/FormularioTarea";
+
+import Login from "./pages/Login";
+import Home from "./pages/Home";
 
 export default function App() {
+  const [usuario, setUsuario] = useState(null);
   const [tareas, setTareas] = useState([]);
 
   useEffect(() => {
-    cargar();
-  }, []);
+    if (usuario) cargar();
+  }, [usuario]);
 
   async function cargar() {
     try {
       const data = await obtenerTareas();
       setTareas(data);
-    } catch (err) {
-      console.error("Error cargando tareas:", err);
+    } catch (e) {
+      console.error("Error cargando tareas:", e);
     }
   }
 
@@ -40,10 +44,33 @@ export default function App() {
   }
 
   return (
-    <div>
-      <h1>Tareas</h1>
-      <FormularioTarea onAdd={agregar} />
-      <ListaTareas tareas={tareas} onToggle={toggle} onDelete={borrar} />
-    </div>
+    <BrowserRouter>
+      <Routes>
+
+        {/* Login */}
+        <Route path="/login" element={<Login onLogin={setUsuario} />} />
+
+        {/* Página principal */}
+        <Route
+          path="/"
+          element={
+            usuario ? (
+              <Home
+                tareas={tareas}
+                onAdd={agregar}
+                onToggle={toggle}
+                onDelete={borrar}
+              />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+
+        {/* Si no existe la ruta */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+
+      </Routes>
+    </BrowserRouter>
   );
 }
