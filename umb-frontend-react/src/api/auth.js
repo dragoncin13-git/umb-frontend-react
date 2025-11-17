@@ -1,4 +1,4 @@
-import { API_URL } from "../config";
+fetch(`${API_URL}/controlador.php`)
 
 export async function loginRequest(usuario) {
     const response = await fetch(`${API_URL}/login.php`, {
