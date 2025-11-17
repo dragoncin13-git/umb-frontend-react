@@ -13,7 +13,7 @@ function App() {
   async function fetchTareas() {
     setCargando(true);
     try {
-      const res = await fetch(`${API_BASE}/api/controlador.php`); // o index.php si lo renombraste
+      const res = await fetch("https://tu_backend.onrender.com/controlador.php"); // o index.php si lo renombraste
       const data = await res.json();
       setTareas(data);
     } catch (err) {
