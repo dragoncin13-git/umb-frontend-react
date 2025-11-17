@@ -1,20 +1,19 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // 👈 Importar useNavigate
 
 function Login() {
   const [usuario, setUsuario] = useState("");
+  const navigate = useNavigate(); // 👈 Inicializar navigate
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const response = await fetch(`${process.env.REACT_APP_API_BASE}/api/login.php`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({ usuario })
-});
-
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ usuario })
+      });
 
       const data = await response.json();
 
@@ -26,8 +25,8 @@ function Login() {
       // Guardar sesión simple
       localStorage.setItem("usuario", data.usuario);
 
-      // Redirigir
-      window.location.href = "/home";
+      // Redirigir con React Router
+      navigate("/home");
 
     } catch (error) {
       alert("No se pudo conectar con el servidor");
@@ -46,15 +45,8 @@ function Login() {
           onChange={(e) => setUsuario(e.target.value)}
           style={{ padding: "10px", width: "200px", marginBottom: "10px" }}
         />
-
         <br />
-
-        <button
-          type="submit"
-          style={{ padding: "10px 20px" }}
-        >
-          Entrar
-        </button>
+        <button type="submit" style={{ padding: "10px 20px" }}>Entrar</button>
       </form>
     </div>
   );

@@ -1,31 +1,26 @@
+// src/App.js
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-
-function PrivateRoute({ children }) {
-  const token = localStorage.getItem("token");
-  return token ? children : <Navigate to="/login" />;
-}
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
-
-        <Route
-          path="/home"
+        <Route 
+          path="/home" 
           element={
-            <PrivateRoute>
+            <ProtectedRoute>
               <Home />
-            </PrivateRoute>
-          }
+            </ProtectedRoute>
+          } 
         />
-
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 
