@@ -8,14 +8,13 @@ function Login() {
 
     try {
       const response = await fetch(`${process.env.REACT_APP_API_BASE}/api/login.php`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          usuario: usuario   // 👈 EL BACKEND EXIGE ESTE NOMBRE
-        })
-      });
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ usuario })
+});
+
 
       const data = await response.json();
 
